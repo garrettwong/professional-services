@@ -10,15 +10,15 @@ function initVerticalTree(filename) {
 
         // set the dimensions and margins of the diagram
         var margin = {
-            top: 20,
-            right: 45,
-            bottom: 30,
-            left: 150
+            top: 100,
+            right: 100,
+            bottom: 100,
+            left: 100
         };
 
         // Use the parsed tree data to dynamically create height & width
-        var width = 1500 - margin.left - margin.right,
-            height = 940 - margin.top - margin.bottom;
+        var width = 1400 - margin.left - margin.right,
+            height = 800 - margin.top - margin.bottom;
 
         tree = d3.tree().size([height, width]);
 
@@ -62,19 +62,92 @@ function initVerticalTree(filename) {
         // appends a 'group' element to 'svg'
         // moves the 'group' element to the top left margin
         svg = d3.select("body").append("svg")
-            .attr("width", width + margin.left + margin.right)
-            .attr("height", height + margin.top + margin.bottom);
+            .attr("width", width) // + margin.left + margin.right)
+            .attr("height", height) // + margin.top + margin.bottom);
+            .style("pointer-events", "all");
 
+        // set up zoomListener function
+        var zoomListener = d3.zoom()
+            .scaleExtent([1/2, 3])
+            .on('zoom', () => {
+                console.log(d3.event.transform);
+
+                g.attr("transform", "translate(" + (d3.event.transform.x + margin.left) + ", " +
+                    (d3.event.transform.y + margin.top) + ")scale(" + d3.event.transform.k + ")");
+            });
+
+        // set initial zoom
+        svg.call(zoomListener, d3.zoomIdentity.translate(width / 2, height / 2))
+            .on("dblclick", null);;
+
+
+        // g "container", initially translated by the margin left and top
         g = svg.append("g")
             .attr("transform",
                 "translate(" + margin.left + "," + margin.top + ")");
 
+        // DEBUG: add rectangle representing the "g" dimension
+        g.append("rect")
+            .attr("width", "100%")
+            .attr("height", "100%")
+            .attr("fill", "pink")
+            .attr("fill-opacity","0.2");
 
         // Collapse after the second level
         // TODO(mzinni):  enable this after folders & projects have color-coded indicators 
         //                of children/no-children
         treeData.children.forEach(collapse);
         update(treeData);
+
+
+        // External UI events:
+
+        // #btn-search - click: if node found, then pan to that node
+        document.getElementById('btn-search').addEventListener('click', function () {
+            var searchText = document.getElementById('search-text').value;
+
+            let el = null;
+            treeData.each(function (d) {
+                if (d.name === searchText) {
+                    el = d;
+                }
+            });
+
+            console.log("FOUND:");
+
+            console.log(el);
+            console.log(zoomListener);
+
+            // d3 magic to find the node and zoom to it
+            // scale = zoomListener.scale();
+            x = el.x;
+            y = el.y;
+            // x = x * scale + width / 2;
+            // y = y * scale + height / 2;
+            // d3.select('g').transition()
+            //     .duration(duration)
+            //     .attr("transform", "translate(" + x + "," + y + ")scale(" + scale + ")");
+            // zoomListener.scale(scale);
+            // zoomListener.translate([x, y]);
+
+            /* Moving the transform zoom layer on the screen which is tied to the svg */
+            t = d3.zoomTransform(svg.node());
+            console.log('node');
+            console.log(x + ',' + y);
+
+            console.log("translate(" + -x + "," + y + ")scale(" + t.k + ")");
+            // console.log("");
+
+            g.transition()
+                .duration(duration)
+                .attr("transform", "translate(" + (-x + (width/4)) + "," + (-y + (height/4)) + ")scale(" + t.k + ")")
+                // .on("end", function() {
+                //     svg.call(
+                //         zoomListener.transform, 
+                //         d3.zoomIdentity.translate(-x/2,-y/2).scale(t.k)
+                //     );
+                // });
+        });
     });
 
     var i = 0;
@@ -158,7 +231,13 @@ function initVerticalTree(filename) {
                 return d.children ? "end" : "start";
             })
 
-            .attr("transform", "translate(0,0) rotate(-45)")
+            .attr("transform", function (d) {
+                if (d.data.resource_type === 'organization') {
+                    // there is only one of these
+                    return "translate(100, -100) rotate(-45)";
+                }
+                return "translate(0,0) rotate(-45)";
+            })
             .text(function (d) {
                 return d.name;
             });
@@ -267,6 +346,7 @@ function initVerticalTree(filename) {
         }
         update(node);
     }
+
 }
 
 function getImageURL(resource_type) {

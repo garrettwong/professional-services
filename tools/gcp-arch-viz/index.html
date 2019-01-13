@@ -19,7 +19,9 @@
 <meta charset="utf-8">
 <style>
   /* set the CSS */
-
+  svg {
+    border: 2px saddlebrown solid;
+  }
   .node circle {
     fill: #fff;
     stroke: steelblue;
@@ -57,10 +59,14 @@
 </style>
 
 <body>
+  <button id="btn-reset-zooms">Reset Zoom</button>
+  <input type="text" id="search-text">
+  <button id="btn-search">Search</button>
   <input type="radio" name="orientation" value="vertical" checked> Vertical<br>
   <input type="radio" name="orientation" value="horizontal"> Horizontal<br>
 
   <input type="checkbox" checked id="cbxExpanded"> Expanded <br />
+
 
   <script src="//d3js.org/d3.v5.min.js"></script>
 
@@ -72,7 +78,8 @@
 
     // FILENAME is static, but add a random variable to the end to prevent browser caching,
     // aka - "I changed the content of the file, but why isn't that stuff drawing?!"
-    var FILENAME = "gcp-data.csv" + "?nocache=" + Date.now();
+    // var FILENAME = "gcp-data.csv" + "?nocache=" + Date.now();
+    var FILENAME = "forseti-resource-generator/output/resources.csv" + "?nocache=" + Date.now();
 
     var FILE_LOAD_START_TIME = new Date().toLocaleTimeString();
     console.log("Loading file: " + FILENAME + ", start time: " + FILE_LOAD_START_TIME);
@@ -89,12 +96,12 @@
 
       if (this.value === 'horizontal') {
         svg.remove();
-        
+
         document.getElementById('cbxExpanded').checked = true;
         initHorizontalTree(FILENAME);
       } else {
         svg.remove();
-        
+
         document.getElementById('cbxExpanded').checked = true;
         initVerticalTree(FILENAME);
       }
@@ -107,5 +114,22 @@
     document.getElementById('cbxExpanded').addEventListener('change', function () {
       document.getElementsByClassName('node')[0].dispatchEvent(new Event('click'));
     });
+
+    
+    // document.getElementById('btn-search').addEventListener('click', function () {
+    //   var searchText = document.getElementById('search-text').value;
+
+    //   // d3 magic to find the node and zoom to it
+    //   scale = zoomListener.scale();
+    //   x = 1;
+    //   y = 1;
+    //   x = x * scale + width / 2;
+    //   y = y * scale + height / 2;
+    //   d3.select('g').transition()
+    //     .duration(duration)
+    //     .attr("transform", "translate(" + x + "," + y + ")scale(" + scale + ")");
+    //   zoomListener.scale(scale);
+    //   zoomListener.translate([x, y]);
+    // });
   </script>
 </body>
