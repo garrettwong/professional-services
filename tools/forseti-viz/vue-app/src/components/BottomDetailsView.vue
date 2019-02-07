@@ -1,7 +1,7 @@
 <template>
   <div class="text-xs-center">
-    <v-bottom-sheet v-model="sheetOpen" hide-overlay="true">
-      <v-btn slot="activator" color="purple" dark>Click me {{sheetOpenState}}</v-btn>
+    <v-bottom-sheet v-model="sheetOpen" v-bind:hide-overlay="true">
+      <v-btn slot="activator" color="purple" dark>Click me {{sheetOpen}}</v-btn>
       
       <v-list>
         <v-subheader>{{title}}</v-subheader>
@@ -29,11 +29,7 @@ export default {
         title: String,
         sheetOpen: Boolean,
     },
-    watch : {
-      sheetOpenState : function () { this.sheetOpen = this.sheetOpenState; }
-    },
     data: () => ({
-        sheetOpen: false,//function() { return this.sheetOpenState; },
         tiles: [
             { img: 'keep.png', title: 'Keep' },
             { img: 'inbox.png', title: 'Inbox' },
