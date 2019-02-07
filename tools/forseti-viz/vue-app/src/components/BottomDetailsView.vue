@@ -4,7 +4,7 @@
       <v-btn slot="activator" color="purple" dark>Click me {{sheetOpen}}</v-btn>
       
       <v-list>
-        <v-subheader>{{title}}</v-subheader>
+        <v-subheader>{{title}} + more content on violations, etc...</v-subheader>
 
         <v-list-tile v-for="tile in tiles" :key="tile.title" @click="sheet = false">
           <v-list-tile-avatar>
@@ -31,10 +31,6 @@ export default {
     },
     data: () => ({
         tiles: [
-            { img: 'keep.png', title: 'Keep' },
-            { img: 'inbox.png', title: 'Inbox' },
-            { img: 'hangouts.png', title: 'Hangouts' },
-            { img: 'messenger.png', title: 'Messenger' },
         ],
     }),
 };
