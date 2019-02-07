@@ -1,0 +1,45 @@
+411450,"organization","resource",358329783625,,"gwongcloud.com","organizations/358329783625","ACTIVE"
+411766,"folder","resource",1050586609210,411450,"Core Logic","folders/1050586609210","ACTIVE"
+411767,"folder","resource",497340695367,411450,"Common","folders/497340695367","ACTIVE"
+411768,"folder","resource",379678980128,411450,"Machine Learning","folders/379678980128","ACTIVE"
+411769,"folder","resource",631974286168,411450,"Common Services","folders/631974286168","ACTIVE"
+411770,"folder","resource",429021693524,411450,"Audit","folders/429021693524","ACTIVE"
+411771,"folder","resource",706203236228,411766,"Subfolder","folders/706203236228","DELETE_REQUESTED"
+412064,"folder","resource",774690286920,411771,"Lower","folders/774690286920","DELETE_REQUESTED"
+411959,"project","resource","salim-terraform",411766,,"salim-terraform","DELETE_REQUESTED"
+412006,"project","resource","cardinal-test-sandbox",411766,,"cardinal-test-sandbox","ACTIVE"
+412007,"project","resource","devops-781d",411767,,"devops","ACTIVE"
+412008,"project","resource","clgx-sushma-sbx",411766,,"clgx-sushma-sbx","ACTIVE"
+411765,"project","resource","charge-me-224817",411450,,"Charge Me","DELETE_REQUESTED"
+411772,"project","resource","gwc-core",411450,,"gwc-core","ACTIVE"
+411773,"project","resource","actions-codelab-2b402",411450,,"actions-codelab","ACTIVE"
+411774,"project","resource","actions-codelab2-c23dc",411450,,"actions-codelab2","ACTIVE"
+411777,"project","resource","devops-1ca6",411769,,"devops","ACTIVE"
+411780,"project","resource","log-sinks-13e2",411450,,"log-sinks","ACTIVE"
+411781,"project","resource","machine-learning-space-60f8",411768,,"machine-learning-space","ACTIVE"
+411782,"project","resource","gwc-service-accounts",411450,,"gwc-service-accounts","ACTIVE"
+411783,"project","resource","sandbox-d24a",411769,,"sandbox","ACTIVE"
+411822,"project","resource","gwc-corelogic-stackdriver",411766,,"gwc-corelogic-stackdriver","DELETE_REQUESTED"
+412095,"project","resource","forseti-shared-vpc-b99a",411770,,"forseti-shared-vpc","ACTIVE"
+411854,"project","resource","cltestproject-219903",411766,,"cltestproject","DELETE_REQUESTED"
+412111,"project","resource","cloud-identity-log-export-e896",411770,,"cloud-identity-log-export","ACTIVE"
+412127,"project","resource","billing-export-224721",411770,,"billing-export","ACTIVE"
+412136,"project","resource","forseti-security-1e88",411770,,"forseti-security","ACTIVE"
+412243,"cloudsqlinstance","resource","gn-test1",412006,,"gn-test1",
+412002,"cloudsqlinstance","resource","cloud-sql-default",411822,,"cloud-sql-default",
+412003,"cloudsqlinstance","resource","test",411822,,"test",
+412004,"cloudsqlinstance","resource","forseti-server-db-235e438",411822,,"forseti-server-db-235e438",
+412011,"appengine_app","resource",9393893322758313901,412008,,"apps/clgx-sushma-sbx",
+411775,"appengine_app","resource",12124268524944363433,411772,,"apps/gwc-core",
+411776,"appengine_app","resource",7945097770081965604,411773,,"apps/actions-codelab-2b402",
+411778,"appengine_app","resource",13425635519886651018,411774,,"apps/actions-codelab2-c23dc",
+412297,"cloudsqlinstance","resource","forseti-server-db-e502402",412095,,"forseti-server-db-e502402",
+412298,"cloudsqlinstance","resource","forseti-server-db-0e2b19b",412095,,"forseti-server-db-0e2b19b",
+411787,"appengine_app","resource",7406181609418660989,411781,,"apps/machine-learning-space-60f8",
+412300,"cloudsqlinstance","resource","forseti-server-db-cb3e593",412095,,"forseti-server-db-cb3e593",
+412302,"cloudsqlinstance","resource","forseti-server-db-bd13a2b",412095,,"forseti-server-db-bd13a2b",
+412304,"cloudsqlinstance","resource","forseti-server-db-ce0eedb",412095,,"forseti-server-db-ce0eedb",
+412330,"cloudsqlinstance","resource","forseti-server-db-586f404",412136,,"forseti-server-db-586f404",
+412402,"kubernetes_cluster","resource",844718000256469037,412006,,"standard-cluster-1",
+412404,"kubernetes_cluster","resource",844718000256469038,412006,,"standard-cluster-2",
+412405,"kubernetes_cluster","resource",844718000256469039,412006,,"standard-cluster-3"

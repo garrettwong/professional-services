@@ -1,0 +1,10 @@
+{
+	"host": "0.0.0.0",
+	"port": 8080,
+	
+	"bodyLimit": "100kb",
+	"corsHeaders": ["Link"],
+
+	"GCLOUD_PROJECT": "gwc-core",
+	"DATA_BACKEND": "datastore"
+}
