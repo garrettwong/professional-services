@@ -33,6 +33,7 @@ EOF
 npm install
 
 # to run --> this will be hosted on localhost:8080/
+source source.env
 npm start
 ```
 
@@ -41,6 +42,8 @@ npm start
 * Install packages and run
 
 ```bash
+cd vue-app/
+
 npm install
 # run --> on localhost:8081/
 npm start
