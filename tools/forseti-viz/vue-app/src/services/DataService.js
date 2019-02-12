@@ -15,6 +15,11 @@ class DataService {
         return $.get(url);
     }
 
+    getIam(iamPrefix) {
+        let url = `http://localhost:8080/api/forseti/iam/${encodeURIComponent(iamPrefix)}`;
+        return $.get(url);
+    }
+
     getForsetiJson() {
         $.get('http://localhost:8080/api/forseti', function (data) {
             console.log('json', data);

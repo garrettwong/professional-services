@@ -31,6 +31,32 @@ export default ({
         });
     });
 
+    /**
+     * @desc returns grpc call for iam explain
+     */
+    forsetiApi.get('/iam/:iamPrefix', function (req, res) {
+        let iamPrefix = req.params.iamPrefix;
+
+        console.log('lol', iamPrefix);
+
+        ForsetiService.getIam(iamPrefix, function (error, results) {
+            if (error)
+                console.log('Error: ', error);
+            else {
+                for (let i = 0; i < results.accesses.length; i++) {
+                    for (let j = 0; j < results.accesses[i].resources.length; j++) {
+                        console.log(results.accesses[i]);
+                        console.log(results.accesses[i].resources[j]);
+                    }
+                }
+
+                console.log('scrodal', results.accesses);
+
+                res.json(results.accesses);
+            }
+        });
+    })
+
 
     /**
      * @desc returns violations

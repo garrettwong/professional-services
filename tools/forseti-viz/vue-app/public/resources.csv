@@ -9,7 +9,7 @@
 411959,"project","resource","salim-terraform",411766,,"salim-terraform","DELETE_REQUESTED"
 412006,"project","resource","cardinal-test-sandbox",411766,,"cardinal-test-sandbox","ACTIVE"
 412007,"project","resource","devops-781d",411767,,"devops","ACTIVE"
-412008,"project","resource","clgx-sushma-sbx",411766,,"clgx-sushma-sbx","ACTIVE"
+412008,"project","resource","asdf-tommy-sbx",411766,,"asdf-tommy-sbx","ACTIVE"
 411765,"project","resource","charge-me-224817",411450,,"Charge Me","DELETE_REQUESTED"
 411772,"project","resource","gwc-core",411450,,"gwc-core","ACTIVE"
 411773,"project","resource","actions-codelab-2b402",411450,,"actions-codelab","ACTIVE"
@@ -19,7 +19,6 @@
 411781,"project","resource","machine-learning-space-60f8",411768,,"machine-learning-space","ACTIVE"
 411782,"project","resource","gwc-service-accounts",411450,,"gwc-service-accounts","ACTIVE"
 411783,"project","resource","sandbox-d24a",411769,,"sandbox","ACTIVE"
-411822,"project","resource","gwc-corelogic-stackdriver",411766,,"gwc-corelogic-stackdriver","DELETE_REQUESTED"
 412095,"project","resource","forseti-shared-vpc-b99a",411770,,"forseti-shared-vpc","ACTIVE"
 411854,"project","resource","cltestproject-219903",411766,,"cltestproject","DELETE_REQUESTED"
 412111,"project","resource","cloud-identity-log-export-e896",411770,,"cloud-identity-log-export","ACTIVE"
@@ -29,7 +28,7 @@
 412002,"cloudsqlinstance","resource","cloud-sql-default",411822,,"cloud-sql-default",
 412003,"cloudsqlinstance","resource","test",411822,,"test",
 412004,"cloudsqlinstance","resource","forseti-server-db-235e438",411822,,"forseti-server-db-235e438",
-412011,"appengine_app","resource",9393893322758313901,412008,,"apps/clgx-sushma-sbx",
+412011,"appengine_app","resource",9393893322758313901,412008,,"apps/asdf-tommy-sbx",
 411775,"appengine_app","resource",12124268524944363433,411772,,"apps/gwc-core",
 411776,"appengine_app","resource",7945097770081965604,411773,,"apps/actions-codelab-2b402",
 411778,"appengine_app","resource",13425635519886651018,411774,,"apps/actions-codelab2-c23dc",

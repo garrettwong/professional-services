@@ -53,6 +53,9 @@
                   :value="n"
                 ></v-radio>
               </v-radio-group>
+
+              <v-text-field label="Explain (user/$USER, group/$GROUP, serviceAccount/$SA)" v-model="iamSearchTerm"></v-text-field>
+              <v-btn color="info" v-on:click="searchIam">Search IAM</v-btn>
             </div>
           </v-flex>
 
@@ -432,7 +435,6 @@ export default {
                 })
                 .on('mouseover', d => {
                     console.log('Update Violations sidebar', d);
-                    
 
                     // showTooltip(d);
                     tooltipDiv
@@ -457,8 +459,11 @@ export default {
                                 }<br>
                             </div>`;
 
-
-                        this.$root.$emit('send', d, this.violationsMap[d.data.resource_id])
+                        this.$root.$emit(
+                            'send',
+                            d,
+                            this.violationsMap[d.data.resource_id]
+                        );
                     } else {
                         // default tooltipContent
                         tooltipContent = `
@@ -469,8 +474,7 @@ export default {
                                 ${d.data.resource_type}
                             </div>`;
 
-
-                        this.$root.$emit('send', d)
+                        this.$root.$emit('send', d);
                     }
 
                     tooltipDiv
@@ -686,12 +690,262 @@ export default {
         },
 
         /**
+         * @function pulsate
+         * @description Pulses a given node
+         */
+        pulsate: function(filterFn) {
+            this.g
+                .selectAll('.node')
+                .filter(filterFn)
+                .selectAll('circle')
+
+                .transition()
+                .duration(this.duration)
+                .attr('r', 30)
+                .style('fill', function(d) {
+                    return 'lightgray';
+                })
+                .style('fill-opacity', function(d) {
+                    return 1;
+                })
+                .transition()
+                .duration(this.duration)
+                .attr('r', 22)
+                .style('fill', function(d) {
+                    return d._children ? 'lightsteelblue' : 'none';
+                })
+                .style('fill-opacity', function(d) {
+                    return d._children ? 1 : 0;
+                });
+        },
+
+        searchIam: function() {
+            console.log(this.iamSearchTerm);
+            if (this.iamSearchTerm === '') {
+                alert('Must not be empty');
+                return;
+            }
+
+            DataService.getIam(this.iamSearchTerm).then(resources => {
+                console.log(resources);
+
+                // make nodes jump up or highlighted or something notable
+                let matchingDataElements = [];
+
+                // get all matching data elements
+                this.treeData.each(function(d) {
+                    for(let i = 0; i < resources.length; i++) {
+                        let match = resources[i].resources[0].replace('organization', 'organizations').replace('folder', 'folders');
+                        console.log(match, d.data.resource_data_name);
+                        if (match === d.data.resource_data_name) {
+                            matchingDataElements.push(d);
+                        }
+                    }
+                });
+
+                console.log(matchingDataElements);
+
+                var ct = 0;
+
+                for (var i in matchingDataElements) {
+                    ct++;
+                    var delay = 1200 * ct;
+
+                    let el = matchingDataElements[i];
+                    let ref = d3.selectAll(el);
+
+                    let x = el.x;
+                    let y = el.y;
+                    let t = d3.zoomTransform(this.svg.node());
+
+                    // pulsate nodes
+                    this.pulsate(function(d, i) {
+                        for(let i = 0; i < resources.length; i++) {
+                            let match = resources[i].resources[0];
+                            
+                            if (match === d.data.resource_data_name) {
+                                return true;
+                            }
+                        }
+
+                        return false;
+                    });
+
+                    setTimeout(() => {
+                        // update data
+                        this.pulsate(
+                            (function(el) {
+                                return function(d, i) {
+                                    if (d.id === el.id) {
+                                        return true;
+                                    }
+
+                                    return false;
+                                };
+                            })(el)
+                        );
+
+                        this.g
+                            .transition()
+                            .duration(this.duration)
+                            .attr('transform', d => {
+                                if (this.orientation === 'Vertical') {
+                                    return (
+                                        'translate(' +
+                                        (-x + this.width / 4) +
+                                        ',' +
+                                        (-y + this.height / 4) +
+                                        ')scale(' +
+                                        t.k +
+                                        ')'
+                                    );
+                                } else {
+                                    return (
+                                        'translate(' +
+                                        (-y + this.height / 4) +
+                                        ',' +
+                                        (-x + this.width / 4) +
+                                        ')scale(' +
+                                        t.k +
+                                        ')'
+                                    );
+                                }
+                            })
+                            .on('end', () => {
+                                let transX =
+                                    this.orientation === 'Vertical'
+                                        ? -x + this.width / 4
+                                        : -y + this.height / 4 - 100;
+                                let transY =
+                                    this.orientation === 'Vertical'
+                                        ? -y + this.height / 4 - 100
+                                        : -x + this.width / 4;
+
+                                this.svg.call(
+                                    this.zoomListener.transform,
+                                    d3.zoomIdentity
+                                        .translate(transX, transY)
+                                        .scale(t.k)
+                                );
+                            });
+                    }, delay);
+                }
+            });
+        },
+
+        searchIamOld: function() {
+            console.log(this.iamSearchTerm);
+
+            // make nodes jump up or highlighted or something notable
+            let matchingDataElements = [];
+
+            // get all matching data elements
+            this.treeData.each(function(d) {
+                if (d.name === 'gwc-core' || d.name === 'gwongcloud.com') {
+                    matchingDataElements.push(d);
+                }
+            });
+            console.log(matchingDataElements);
+
+            var ct = 0;
+
+            for (var i in matchingDataElements) {
+                ct++;
+                var delay = 1200 * ct;
+
+                let el = matchingDataElements[i];
+                let ref = d3.selectAll(el);
+
+                let x = el.x;
+                let y = el.y;
+                let t = d3.zoomTransform(this.svg.node());
+
+                // pulsate nodes
+                this.pulsate(function(d, i) {
+                    console.log(d, i, el);
+
+                    for (var i in matchingDataElements) {
+                        let el = matchingDataElements[i];
+
+                        if (d.id === el.id) {
+                            return true;
+                        }
+                    }
+
+                    return false;
+                });
+
+                setTimeout(() => {
+                    // update data
+                    this.pulsate(
+                        (function(el) {
+                            return function(d, i) {
+                                console.log(d, el);
+
+                                if (d.id === el.id) {
+                                    return true;
+                                }
+
+                                return false;
+                            };
+                        })(el)
+                    );
+
+                    this.g
+                        .transition()
+                        .duration(this.duration)
+                        .attr('transform', d => {
+                            if (this.orientation === 'Vertical') {
+                                return (
+                                    'translate(' +
+                                    (-x + this.width / 4) +
+                                    ',' +
+                                    (-y + this.height / 4) +
+                                    ')scale(' +
+                                    t.k +
+                                    ')'
+                                );
+                            } else {
+                                return (
+                                    'translate(' +
+                                    (-y + this.height / 4) +
+                                    ',' +
+                                    (-x + this.width / 4) +
+                                    ')scale(' +
+                                    t.k +
+                                    ')'
+                                );
+                            }
+                        })
+                        .on('end', () => {
+                            let transX =
+                                this.orientation === 'Vertical'
+                                    ? -x + this.width / 4
+                                    : -y + this.height / 4 - 100;
+                            let transY =
+                                this.orientation === 'Vertical'
+                                    ? -y + this.height / 4 - 100
+                                    : -x + this.width / 4;
+
+                            this.svg.call(
+                                this.zoomListener.transform,
+                                d3.zoomIdentity
+                                    .translate(transX, transY)
+                                    .scale(t.k)
+                            );
+                        });
+                }, delay);
+            }
+        },
+
+        /**
          * @function resetZoom
          * @description Searches for an exact text match of the node name and pans to that node
          */
         search: function() {
             let searchText = this.nodeName;
 
+            // get the data element
             let el = null;
             this.treeData.each(function(d) {
                 if (d.name === searchText) {
@@ -830,7 +1084,6 @@ export default {
                 // collapse all
                 this.collapse(this.treeData);
             } else {
-
                 if (this.treeData.children === null) {
                     this.treeData.children = this.treeData._children;
                     this.treeData._children = null;
@@ -959,6 +1212,7 @@ export default {
         expandAll: false,
         showViolations: true,
         orientation: 'Vertical',
+        iamSearchTerm: '',
 
         // svg node elements
         svg: {},
