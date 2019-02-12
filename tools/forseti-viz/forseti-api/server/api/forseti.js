@@ -1,7 +1,7 @@
 import {
     Router
 } from 'express';
-import ForsetiService from '../lib/forseti-service';
+import ForsetiService from '../services/forseti-service';
 
 export default ({
     config,
